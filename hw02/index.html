@@ -1,14 +1,503 @@
+<!DOCTYPE html>
 <html>
-	<head></head>
-	<body> 
-		<h1> hw2 </h1>
-		<script>
-			var div = document.createElement('div');
-			div.innerText = 'This is hw2';
-			document.body.appendChild(div);
-		</script>
-	</body>
+  <!--  -->
 
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title></title>
+    <style type="text/css">
+      @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@300&family=Noto+Serif+JP:wght@200&display=swap');
 
+      body {
+        font-size: 18pt;
+      }
 
+      div {
+        border: black solid 1px;
+        margin: 10px;
+        padding: 10px;
+      }
+
+      svg {
+        border: red solid 1px;
+        /*margin: 10px;*/
+        font-size: 36pt;
+      }
+
+      li {
+        font-size: 12pt;
+        font-family: 'Noto Sans Mono', 'Noto Serif JP';
+      }
+
+      .selected {
+        stroke: red;
+        stroke-width: 5px;
+      }
+
+      .font-svg {
+        height: 100px;
+        width: 100px;
+      }
+    </style>
+
+    <!-- <script src="./d3.v7.min.js" charset="utf-8"></script> -->
+  </head>
+  <!--  -->
+
+  <body>
+    <div id="score-btn"></div>
+    <hr />
+
+    <a href="https://en.wikipedia.org/wiki/Plane_(Unicode)"
+      >Unicode 字元平面 Plane</a
+    >
+
+    <p>Unicode 分為 17 平面（Plane），每平面擁有 65,536（2^16）個代碼點。</p>
+
+    <ol start="0">
+      <li>U+000000 - U+00FFFF 基本多文種平面 Basic Multilingual Plane (BMP)</li>
+      <li>
+        U+010000 - U+01FFFF 第一輔助平面 (多文種補充平面 ) Supplementary
+        Multilingual Plane (SMP)
+      </li>
+      <li>
+        U+020000 - U+02FFFF 第二輔助平面 (表意文字補充平面) Supplementary
+        Ideographic Plane (SIP)
+      </li>
+      <li>
+        U+030000 - U+03FFFF 第三輔助平面 (表意文字第三平面) Tertiary Ideographic
+        Plane (TIP)
+      </li>
+      <li>U+040000 - U+05FFFF（尚未使用）</li>
+      <li>U+050000 - U+06FFFF（尚未使用）</li>
+      <li>U+060000 - U+07FFFF（尚未使用）</li>
+      <li>U+070000 - U+08FFFF（尚未使用）</li>
+      <li>U+080000 - U+09FFFF（尚未使用）</li>
+      <li>U+090000 - U+0AFFFF（尚未使用）</li>
+      <li>U+0A0000 - U+0BFFFF（尚未使用）</li>
+      <li>U+0B0000 - U+0CFFFF（尚未使用）</li>
+      <li>U+0C0000 - U+0DFFFF（尚未使用）</li>
+      <li>U+040000 - U+0DFFFF（尚未使用）</li>
+      <li>
+        U+0E0000 - U+0EFFFF 特別用途補充平面 Supplementary Special-purpose Plane
+        (SSP)
+      </li>
+      <li>
+        U+0F0000 - U+0FFFFF 保留作為私人使用區（A區）[1] Private Use Area-A
+        (PUA-A)
+      </li>
+      <li>
+        U+100000 - U+10FFFF 保留作為私人使用區（B區）[1] Private Use Area-B
+        (PUA-B)
+      </li>
+    </ol>
+
+    <hr />
+
+    <div id="planes"></div>
+    <!-- <a id="download" href="#">Download SVG</button> -->
+
+    <hr />
+
+    <div id="plane_now">BMP, plane_select = 0</div>
+
+    <hr />
+
+    <div id="plane"></div>
+
+    <hr />
+
+    <div>
+      <div>
+        <input type="file" id="select-font" />
+      </div>
+      <div>
+        <a href="javascript:void(0)" id="download-svg"> Download </a>
+      </div>
+      <div>
+        <label for="point-switch"> Hide Points </label>
+        <input type="checkbox" id="point-switch" checked />
+      </div>
+      <div
+        id="svg_image"
+        style="display: inline-block; height: 15rem; width: 10%"
+      ></div>
+      <div
+        style="display: inline-block; height: 15rem; width: 70%; float: right"
+      >
+        <textarea id="svg_text" style="height: 100%; width: 100%"></textarea>
+      </div>
+      <div style="clear: both; padding: 0; border: 0"></div>
+    </div>
+
+    <hr />
+    Surrogates:
+    <ul>
+      <li>High Surrogates (D800–DB7F) 896</li>
+      <li>High Private Use Surrogates (DB80–DBFF) 128</li>
+      <li>Low Surrogates (DC00–DFFF) 1024</li>
+    </ul>
+
+    Since high surrogate values in the range DB80–DBFF always produce values in
+    the Private Use planes, the high surrogate range can be further divided into
+    (normal) high surrogates (D800–DB7F) and "high private use surrogates"
+    (DB80–DBFF).
+    <hr />
+
+    <!-- d3.js library -->
+    <script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+
+    <!-- opentype library -->
+    <script src="./opentype.min.js"></script>
+
+    <!-- Path function from opentype library -->
+    <script src="./MyPath.js"></script>
+
+    <!-- score outputer -->
+    <script src="https://cdn.jsdelivr.net/gh/t109598105/ScoreOutputer@latest/dist/scoreoutputer.min.js"></script>
+
+    <script type="text/javascript">
+      /** Global variables */
+      let openTypeFont = null;
+      let svgHTML = '';
+      let plane_select = 0;
+      let code_point = 0;
+      //17字面的名字
+      const unicode = [
+        'BMP',
+        'SMP',
+        'SIP',
+        'TIP',
+        '4',
+        '5',
+        '6',
+        '7',
+        '8',
+        '9',
+        '10',
+        '11',
+        '12',
+        '13',
+        'SSP',
+        'PUA-A',
+        'PUA-B',
+      ];
+
+      /** Your code goes here */
+      /***/
+
+      /** create font svg function */
+      function create_font_svg() {
+        console.log('start create_font_svg()...');
+
+        /** Your code goes here */
+
+        console.log('end create_font_svg()...');
+      }
+      /***/
+
+      /** build plane function */
+      function build_plane() {
+        console.log('start build_plane()...');
+
+        /** Your code goes here */
+
+        var dataset = new Array(65536).fill();
+
+        var w = 1024;
+        var h = 1024;
+
+        var svg2 = d3
+          .select('#plane') // body
+          .append('svg')
+          .attr('id', 'svg')
+          .attr('width', w)
+          .attr('height', h)
+          .attr('xmlns', 'http://www.w3.org/2000/svg')
+          .attr('xmlns:svg', 'http://www.w3.org/2000/svg')
+          .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        svg2
+          .selectAll('rect')
+          .data(dataset)
+          .enter()
+          .append('rect')
+          .attr('x', function (d, i) {
+            return (i % 256) * 4;
+          })
+          .attr('y', function (d, i) {
+            return Math.floor(i / 256) * 4;
+          })
+          .attr('width', 8)
+          .attr('height', 8)
+          .attr('fill', function (d, i) {
+            var value =
+              'rgb(' +
+              (0).toString() +
+              ', ' +
+              (255 - Math.floor(i / 256) * 2).toString() +
+              ', ' +
+              (255 - (i % 256)).toString() +
+              ')';
+            var cp = plane_select * 65536 + i;
+
+            if (cp >= 0xd800 && cp <= 0xdb7f) {
+              value = 'red';
+            } else if (cp >= 0xdb80 && cp <= 0xdbff) {
+              value = 'yellow';
+            } else if (cp >= 0xdc00 && cp <= 0xdfff) {
+              value = 'cyan';
+            }
+
+            return value;
+          })
+          .on('click', function (event) {
+            var coords = d3.mouse(this);
+            d3.select('#tooltip_click').remove();
+
+            svg2
+              .append('text')
+              .text(
+                '0x' +
+                  '000000'.substr(code_point.toString(16).length) +
+                  code_point.toString(16) +
+                  ', ' +
+                  code_point.toString() +
+                  ', ' +
+                  String.fromCodePoint(code_point)
+              )
+              .attr('x', function (d, i) {
+                return coords[0] + 8;
+              })
+              .attr('y', function (d, i) {
+                return Math.floor(coords[1]) + 64;
+              })
+              .attr('fill', '#ff0')
+              .attr('font-size', '24pt')
+              .attr('id', 'tooltip_click');
+
+            d3.select(this).attr('fill', 'orange');
+
+            create_font_svg();
+          })
+          .on('mouseover', function (event) {
+            var coords = d3.mouse(this);
+
+            code_point =
+              plane_select * 65536 +
+              Math.floor(coords[1] / 4) * 256 +
+              Math.floor(coords[0] / 4);
+            code_point = Math.max(0, code_point);
+
+            svg2
+              .append('text')
+              .text(
+                '0x' +
+                  '000000'.substr(code_point.toString(16).length) +
+                  code_point.toString(16) +
+                  ', ' +
+                  code_point.toString() +
+                  ', ' +
+                  String.fromCodePoint(code_point)
+              )
+              .attr('x', function (d, i) {
+                return coords[0] + 8;
+              })
+              .attr('y', function (d, i) {
+                return Math.floor(coords[1]) + 64;
+              })
+              .attr('fill', '#ff0')
+              .attr('font-size', '24pt')
+              .attr('id', 'tooltip');
+
+            d3.select(this).attr('fill', 'orange');
+          })
+          .on('mouseout', function (d) {
+            d3.select('#tooltip').remove();
+          })
+          .append('title')
+          .text(function (d, i) {
+            var start = plane_select * 65536;
+            return (
+              '0x' +
+              '000000'.substr((start + i).toString(16).length) +
+              (start + i).toString(16) +
+              ', ' +
+              (start + i) +
+              ', ' +
+              String.fromCodePoint(start + i)
+            );
+          });
+        console.log('end build_plane()...');
+      }
+      /***/
+
+      /** build plane selection function */
+      // 選擇任意平面的方塊
+      function build_plane_selection() {
+        console.log('start build_plane_selection()...');
+
+        /** Your code goes here */
+        var svg1 = d3
+          .select('#planes')
+          .append('svg')
+          .attr('viewBox', '0 0 1500 100')
+          .attr('style', 'height:100%;width:100%')
+          .attr('id', 'svgplanes')
+          .attr('xmlns', 'http://www.w3.org/2000/svg')
+          .attr('xmlns:svg', 'http://www.w3.org/2000/svg')
+          .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink');
+        var svgRectSize = Math.floor((1500 - 8 * 17) / 17);
+        var currentSelectPlane = null;
+        svg1
+          .selectAll('rect')
+          .data(unicode)
+          .enter()
+          .append('rect')
+          .attr('class', 'unicode_planes')
+          .classed('selected', function (d, i) {
+            if (i == plane_select) {
+              currentSelectPlane = d3.select(this);
+              return true;
+            }
+            return false;
+          })
+          .attr('id', function (d, i) {
+            return 'plane' + i;
+          })
+          .attr('x', function (d, i) {
+            return 8 + i * svgRectSize + i * 8;
+          })
+          .attr('y', 8)
+          .attr('width', svgRectSize)
+          .attr('height', svgRectSize)
+          .attr('fill', function (d, i) {
+            return (
+              'rgb(' +
+              (0).toString() +
+              ', ' +
+              ((i % 17) * 16).toString() +
+              ', ' +
+              ((i % 17) * 16).toString() +
+              ')'
+            );
+          })
+          .on('mousemove', function () {
+            //console.log();
+            //Get this bar's x/y values, then augment for the tooltip
+            console.log(d3.mouse(this));
+            var xPosition = parseInt(d3.mouse(this)[0]);
+            var yPosition = parseInt(d3.mouse(this)[1]);
+            d3.select('#tooltip_planes').remove();
+            //Create the tooltip label
+            svg1
+              .append('text')
+              .attr('id', 'tooltip_planes')
+              .attr('x', xPosition + 24)
+              .attr('y', yPosition)
+              .attr('text-anchor', 'middle')
+              .attr('font-family', 'sans-serif')
+              .attr('font-size', '11px')
+              .attr('font-weight', 'bold')
+              .attr('fill', 'white')
+              .text(xPosition + ', ' + yPosition);
+          })
+          .on('mouseout', function () {
+            d3.select('#tooltip_planes').remove();
+          })
+          .on('click', function (o_pe, d) {
+            plane_select = unicode.indexOf(o_pe);
+            currentSelectPlane.classed('selected', false);
+            currentSelectPlane = d3
+              .select('#plane' + plane_select)
+              .classed('selected', true);
+            //console.log(d + ', ' + plane_select + ', ' + o_pe);
+            d3.select('#plane_now').html(
+              d + ', plane_select = ' + plane_select
+            );
+            d3.select('#svg').remove();
+            build_plane();
+          });
+        svg1
+          .selectAll('text')
+          .data(unicode)
+          .enter()
+          .append('text')
+          .text(function (d) {
+            return d;
+          })
+          .attr('x', function (d, i) {
+            return 16 + i * svgRectSize + i * 8;
+          })
+          .attr('y', 32)
+          .attr('fill', '#ff0')
+          .attr('font-size', '12pt');
+
+        console.log('end build_plane_selection()...');
+      }
+      /***/
+
+      /** main function */
+      d3.select(window).on('load', function () {
+        build_plane_selection();
+        build_plane();
+
+        /** autoload font data */
+        /** Your code goes here */
+        /***/
+
+        /** font selection */
+        /** Your code goes here */
+        /***/
+
+        /** download svg text */
+        /** Your code goes here */
+        /***/
+      });
+
+      var so = new ScoreOutputer('111111111');
+      so.installCSS(function () {
+        // 安裝 bootstrap 的 css，如果在 html 上方引用 bootstrap 5.1.1 的話就不用使用 installCSS ，注意一定要 bootstrap css 5.1.1 版
+        // installCSS 接收一個 callback 當作參數，作為成功安裝 bootstrap css 的回呼函式
+
+        //加入項目，分數，完成狀況
+        //第一個參數為 項目名稱
+        //第2個參數為 項目分數
+        //第3個參數為 完成狀況，有完成 true/未完成 false
+        //有幾個項目就呼叫幾個 addChild
+        //addChild 要比 renderModal 先呼叫
+        so.addChild('字型檔手動讀取', 6, true);
+        so.addChild('字型檔自動讀取', 2, true);
+        so.addChild('字型描點', 2, false);
+
+        //產生自評表，參數如下所示
+        so.renderModal(
+          //1. 自評表插入位置 (預設 document.body)
+          document.body,
+          //2. 自評表背景 (預設紅色)
+          'rgba(100,45,58,1)',
+          //3. 自評表文字顏色 (預設白色)
+          'white',
+          //4. 自評表文字大小 (預設 14pt)
+          '15pt',
+          //5. 自評表 checkbox 文字大小 (預設多少忘了)
+          '15px',
+          //6. 自評表標題 (預設 "自我評分表")
+          '自我評分表'
+        );
+
+        //設定下載按鈕 <-- 一定要呼叫這個函數，不然沒有下載功能
+        so.installDownloadBtn();
+
+        //產生 "開啟自評表按鈕"
+        so.renderBtn(
+          //自評表按鈕插入位置
+          d3.select('#score-btn').node(),
+          //自評表按鈕文字
+          '開啟自評表'
+        );
+      });
+    </script>
+  </body>
+  <!--  -->
 </html>
