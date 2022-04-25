@@ -163,6 +163,7 @@
       let svgHTML = '';
       let plane_select = 0;
       let code_point = 0;
+      let svg3;
       //17字面的名字
       const unicode = [
         'BMP',
@@ -202,7 +203,7 @@
 
           var glyph = font.stringToGlyphs(str)[0];
 
-          //控制點生成函數
+          //控制點生成函數，strong baseline請用mkPath的c來做
           var mkPath = function (commands, height) {
             var p = new MyPath();
             var c = [];
@@ -244,8 +245,9 @@
 
           var svgPathObj = mkPath(glyph.path.commands, font.unitsPerEm);
           var tmpPath = svgPathObj[0];
+          console.log(svgPathObj);
 
-          var svg3 = d3
+          svg3 = d3
             .select('#svg_image')
             .append('svg')
             .attr('xmlns', 'http://www.w3.org/2000/svg')
@@ -254,7 +256,8 @@
             .attr(
               'viewBox',
               [0, -glyph.yMin, font.unitsPerEm, font.unitsPerEm].join(' ')
-            );
+            )
+            .attr('id', 'svg_tag');
           svg3
             .append('path')
             .attr('d', tmpPath.toPathData())
@@ -263,6 +266,22 @@
           d3.select('#svg_text').html(svg3.node().outerHTML);
 
           svgHTML = svg3.node().outerHTML;
+
+          console.log(document.querySelector('#point-switch').value);
+
+          d3.select('#svg_tag')
+            .selectAll('svg')
+            .data(svgPathObj[1])
+            .enter()
+            .append('circle')
+            .attr('cx', function (d, i) {
+              return d[0];
+            })
+            .attr('cy', function (d, i) {
+              return d[1];
+            })
+            .attr('r', 25)
+            .style('fill', 'red');
         }
 
         console.log('end create_font_svg()...');
@@ -516,6 +535,12 @@
 
         /** autoload font data */
         /** Your code goes here */
+        d3.request('./SourceHanSerif-Heavy.ttf') //ajax
+          .responseType('arraybuffer')
+          .get(function (data) {
+            //http get
+            openTypeFont = opentype.parse(data.response);
+          });
         /***/
 
         /** font selection */
@@ -561,7 +586,7 @@
         //addChild 要比 renderModal 先呼叫
         so.addChild('字型檔手動讀取', 6, true);
         so.addChild('字型檔自動讀取', 2, true);
-        so.addChild('字型描點', 2, false);
+        so.addChild('字型描點', 2, true);
 
         //產生自評表，參數如下所示
         so.renderModal(
