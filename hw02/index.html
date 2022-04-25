@@ -159,7 +159,7 @@
 
     <script type="text/javascript">
       /** Global variables */
-      let openTypeFont = null;
+      let openTypeFont = null; //儲存
       let svgHTML = '';
       let plane_select = 0;
       let code_point = 0;
@@ -192,6 +192,78 @@
         console.log('start create_font_svg()...');
 
         /** Your code goes here */
+        if (openTypeFont !== null) {
+          d3.select('#svg_image').html(''); //將svg image清空
+
+          d3.select('#svg_text').html(''); //將svg text清空
+
+          var str = String.fromCodePoint(code_point); //從code到文字
+          var font = openTypeFont;
+
+          var glyph = font.stringToGlyphs(str)[0];
+
+          //控制點生成函數
+          var mkPath = function (commands, height) {
+            var p = new MyPath();
+            var c = [];
+            for (let i = 0; i < commands.length; i += 1) {
+              const cmd = commands[i];
+              if (cmd.type === 'M') {
+                p.moveTo(cmd.x, height - cmd.y);
+                c.push([cmd.x, height - cmd.y]);
+              } else if (cmd.type === 'L') {
+                p.lineTo(cmd.x, height - cmd.y);
+                c.push([cmd.x, height - cmd.y]);
+              } else if (cmd.type === 'Q') {
+                p.quadraticCurveTo(
+                  cmd.x1,
+                  height - cmd.y1,
+                  cmd.x,
+                  height - cmd.y
+                );
+                c.push([cmd.x1, height - cmd.y1]);
+                c.push([cmd.x, height - cmd.y]);
+              } else if (cmd.type === 'C') {
+                p.curveTo(
+                  cmd.x1,
+                  height - cmd.y1,
+                  cmd.x2,
+                  height - cmd.y2,
+                  cmd.x,
+                  height - cmd.y
+                );
+                c.push([cmd.x1, height - cmd.y1]);
+                c.push([cmd.x2, height - cmd.y2]);
+                c.push([cmd.x, height - cmd.y]);
+              } else if (cmd.type === 'Z') {
+                p.closePath();
+              }
+            }
+            return [p, c];
+          };
+
+          var svgPathObj = mkPath(glyph.path.commands, font.unitsPerEm);
+          var tmpPath = svgPathObj[0];
+
+          var svg3 = d3
+            .select('#svg_image')
+            .append('svg')
+            .attr('xmlns', 'http://www.w3.org/2000/svg')
+            .attr('xmlns:svg', 'http://www.w3.org/2000/svg')
+            .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink')
+            .attr(
+              'viewBox',
+              [0, -glyph.yMin, font.unitsPerEm, font.unitsPerEm].join(' ')
+            );
+          svg3
+            .append('path')
+            .attr('d', tmpPath.toPathData())
+            .attr('class', 'font-svg');
+
+          d3.select('#svg_text').html(svg3.node().outerHTML);
+
+          svgHTML = svg3.node().outerHTML;
+        }
 
         console.log('end create_font_svg()...');
       }
@@ -448,14 +520,35 @@
 
         /** font selection */
         /** Your code goes here */
+        d3.select('#select-font').on('change', function () {
+          if (this.files[0].name.split('.').slice(-1)[0] != 'ttf') {
+            return console.error('Not a valid ttf file');
+          }
+
+          let fr = new FileReader();
+          fr.onload = () => {
+            openTypeFont = opentype.parse(fr.result);
+          };
+          fr.readAsArrayBuffer(this.files[0]);
+        });
         /***/
 
         /** download svg text */
         /** Your code goes here */
+        d3.select('#download-svg').on('click', function () {
+          var a = d3
+            .create('a')
+            .attr(
+              'href',
+              URL.createObjectURL(new Blob([svgHTML], { type: 'text/plain' }))
+            )
+            .attr('download', 'output.svg');
+          a.node().click();
+        });
         /***/
       });
 
-      var so = new ScoreOutputer('111111111');
+      var so = new ScoreOutputer('110598028');
       so.installCSS(function () {
         // 安裝 bootstrap 的 css，如果在 html 上方引用 bootstrap 5.1.1 的話就不用使用 installCSS ，注意一定要 bootstrap css 5.1.1 版
         // installCSS 接收一個 callback 當作參數，作為成功安裝 bootstrap css 的回呼函式
