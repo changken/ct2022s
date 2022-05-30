@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>HW05 - zi2zi</title>
+	<style>
+		body {
+            background-color: #775f9e !important;
+			width: 95%;
+			margin: auto;
+        }
+
+		div {
+			overflow: auto;
+			font-size: 25px;
+		}
+
+		img {
+            width: 30%;
+			margin: 10px 10px 10px 5.55%;
+        }
+
+		.link {
+			color: black !important;
+			font-size: 16px;
+			margin: 10px;
+
+		}
+
+		.link:hover { color: #FB9966 !important;}
+		
+		#simple-baseline {
+			border: rgb(25, 199, 25) solid 3px;
+			margin: 10px;
+		}
+
+		#medium-baseline {
+			border: red solid 3px;
+			background-color: wheat;
+			height: 600px;
+			margin: 10px;
+			font-family: Medium; /*需對應下方 font-face Medium Baseline 字型的名稱*/
+			letter-spacing: 13px;
+			font-size: 250%;
+		}
+
+		#strong-baseline {
+			border: pink solid 3px;
+			background-color: #FB9966;
+			height: 600px;
+			margin: 10px;
+			font-family: Strong; /*需對應下方 font-face Strong Baseline 字型的名稱*/
+		}
+
+		@font-face {
+			font-family: "Medium"; /*Medium Baseline 字型的名稱*/
+			src: url(./Medium.ttf);
+		}
+
+		@font-face {
+			font-family: "Strong"; /*Strong Baseline 字型的名稱*/
+			src: url(./Strong.ttf);
+		}
+	</style>
+</head>
+<body>
+	<div id="score-btn"></div>
+
+	<hr>
+
+	<div id="simple-baseline" class="container-fluid">
+		<img class="img-fluid img-thumbnail" src="./simple/inferred_0009.png" alt="圖1">
+		<img class="img-fluid img-thumbnail" src="./simple/inferred_0019.png" alt="圖2">
+		<img class="img-fluid img-thumbnail" src="./simple/inferred_0029.png" alt="圖3">
+		<img class="img-fluid img-thumbnail" src="./simple/inferred_0039.png" alt="圖4">
+		<img class="img-fluid img-thumbnail" src="./simple/inferred_0042.png" alt="圖5" id="img-last" style="display: none;">
+    </div>
+
+	<div id="medium-baseline" class="container-fluid">
+		字體設計與文字編碼 <br><br>
+
+		長恨歌<br>
+		白居易<br>
+		漢皇重色思傾國，御宇多年求不得。楊家有女初長成，養在深閨人未識。<br>
+		天生麗質難自棄，一朝選在君王側。回眸一笑百媚生，六宮粉黛無顏色。<br>
+		春寒賜浴華清池，溫泉水滑洗凝脂。侍兒扶起嬌無力，始是新承恩澤時。<br>
+		雲鬢花顏金步搖，芙蓉帳暖度春宵。春宵苦短日高起，從此君王不早朝。<br>
+		承歡侍宴無閒暇，春從春遊夜專夜。後宮佳麗三千人，三千寵愛在一身。<br>
+		金屋妝成嬌侍夜，玉樓宴罷醉和春。姊妹弟兄皆列土，可憐光彩生門戶。<br>
+		遂令天下父母心，不重生男重生女。驪宮高處入青雲，仙樂風飄處處聞。<br>
+		緩歌慢舞凝絲竹，盡日君王看不足。漁陽鼙鼓動地來，驚破霓裳羽衣曲。<br>
+		九重城闕煙塵生，千乘萬騎西南行。翠華搖搖行復止，西出都門百餘里。<br>
+		六軍不發無奈何，宛轉蛾眉馬前死。花鈿委地無人收，翠翹金雀玉搔頭。<br>
+		君王掩面救不得，回看血淚相和流。黃埃散漫風蕭索，雲棧縈紆登劍閣。<br>
+		峨嵋山下少人行，旌旗無光日色薄。蜀江水碧蜀山青，聖主朝朝暮暮情。<br>
+		行宮見月傷心色，夜雨聞鈴腸斷聲。天旋地轉回龍馭，到此躊躇不能去。<br>
+		馬嵬坡下泥土中，不見玉顏空死處。君臣相顧盡沾衣，東望都門信馬歸。<br>
+		歸來池苑皆依舊，太液芙蓉未央柳。芙蓉如面柳如眉，對此如何不淚垂。<br>
+		春風桃李花開日，秋雨梧桐葉落時。西宮南內多秋草，落葉滿階紅不掃。<br>
+		梨園弟子白髮新，椒房阿監青娥老。夕殿螢飛思悄然，孤燈挑盡未成眠。<br>
+		遲遲鐘鼓初長夜，耿耿星河欲曙天。鴛鴦瓦冷霜華重，翡翠衾寒誰與共。<br>
+		悠悠生死別經年，魂魄不曾來入夢。臨邛道士鴻都客，能以精誠致魂魄。<br>
+		為感君王輾轉思，遂教方士殷勤覓。排空馭氣奔如電，昇天入地求之遍。<br>
+		上窮碧落下黃泉，兩處茫茫皆不見。忽聞海上有仙山，山在虛無縹渺間。<br>
+		樓閣玲瓏五雲起，其中綽約多仙子。中有一人字太真，雪膚花貌參差是。<br>
+		金闕西廂叩玉扃，轉教小玉報雙成。聞道漢家天子使，九華帳裏夢魂驚。<br>
+		攬衣推枕起徘徊，珠箔銀屏迤邐開。雲鬢半偏新睡覺，花冠不整下堂來。<br>
+		風吹仙袂飄飄舉，猶似霓裳羽衣舞。玉容寂寞淚闌干，梨花一枝春帶雨。<br>
+		含情凝睇謝君王，一別音容兩渺茫。昭陽殿裏恩愛絕，蓬萊宮中日月長。<br>
+		回頭下望人寰處，不見長安見塵霧。惟將舊物表深情，鈿合金釵寄將去。<br>
+		釵留一股合一扇，釵擘黃金合分鈿。但教心似金鈿堅，天上人間會相見。<br>
+		臨別殷勤重寄詞，詞中有誓兩心知。七月七日長生殿，夜半無人私語時。<br>
+		在天願作比翼鳥，在地願為連理枝。天長地久有時盡，此恨綿綿無絕期。<br>
+	</div>
+
+	
+	<div id="strong-baseline" class="container-fluid">
+        字體設計與文字編碼 <br><br>
+
+
+		長恨歌<br>
+		白居易<br>
+		漢皇重色思傾國，御宇多年求不得。楊家有女初長成，養在深閨人未識。<br>
+		天生麗質難自棄，一朝選在君王側。回眸一笑百媚生，六宮粉黛無顏色。<br>
+		春寒賜浴華清池，溫泉水滑洗凝脂。侍兒扶起嬌無力，始是新承恩澤時。<br>
+		雲鬢花顏金步搖，芙蓉帳暖度春宵。春宵苦短日高起，從此君王不早朝。<br>
+		承歡侍宴無閒暇，春從春遊夜專夜。後宮佳麗三千人，三千寵愛在一身。<br>
+		金屋妝成嬌侍夜，玉樓宴罷醉和春。姊妹弟兄皆列土，可憐光彩生門戶。<br>
+		遂令天下父母心，不重生男重生女。驪宮高處入青雲，仙樂風飄處處聞。<br>
+		緩歌慢舞凝絲竹，盡日君王看不足。漁陽鼙鼓動地來，驚破霓裳羽衣曲。<br>
+		九重城闕煙塵生，千乘萬騎西南行。翠華搖搖行復止，西出都門百餘里。<br>
+		六軍不發無奈何，宛轉蛾眉馬前死。花鈿委地無人收，翠翹金雀玉搔頭。<br>
+		君王掩面救不得，回看血淚相和流。黃埃散漫風蕭索，雲棧縈紆登劍閣。<br>
+		峨嵋山下少人行，旌旗無光日色薄。蜀江水碧蜀山青，聖主朝朝暮暮情。<br>
+		行宮見月傷心色，夜雨聞鈴腸斷聲。天旋地轉回龍馭，到此躊躇不能去。<br>
+		馬嵬坡下泥土中，不見玉顏空死處。君臣相顧盡沾衣，東望都門信馬歸。<br>
+		歸來池苑皆依舊，太液芙蓉未央柳。芙蓉如面柳如眉，對此如何不淚垂。<br>
+		春風桃李花開日，秋雨梧桐葉落時。西宮南內多秋草，落葉滿階紅不掃。<br>
+		梨園弟子白髮新，椒房阿監青娥老。夕殿螢飛思悄然，孤燈挑盡未成眠。<br>
+		遲遲鐘鼓初長夜，耿耿星河欲曙天。鴛鴦瓦冷霜華重，翡翠衾寒誰與共。<br>
+		悠悠生死別經年，魂魄不曾來入夢。臨邛道士鴻都客，能以精誠致魂魄。<br>
+		為感君王輾轉思，遂教方士殷勤覓。排空馭氣奔如電，昇天入地求之遍。<br>
+		上窮碧落下黃泉，兩處茫茫皆不見。忽聞海上有仙山，山在虛無縹渺間。<br>
+		樓閣玲瓏五雲起，其中綽約多仙子。中有一人字太真，雪膚花貌參差是。<br>
+		金闕西廂叩玉扃，轉教小玉報雙成。聞道漢家天子使，九華帳裏夢魂驚。<br>
+		攬衣推枕起徘徊，珠箔銀屏迤邐開。雲鬢半偏新睡覺，花冠不整下堂來。<br>
+		風吹仙袂飄飄舉，猶似霓裳羽衣舞。玉容寂寞淚闌干，梨花一枝春帶雨。<br>
+		含情凝睇謝君王，一別音容兩渺茫。昭陽殿裏恩愛絕，蓬萊宮中日月長。<br>
+		回頭下望人寰處，不見長安見塵霧。惟將舊物表深情，鈿合金釵寄將去。<br>
+		釵留一股合一扇，釵擘黃金合分鈿。但教心似金鈿堅，天上人間會相見。<br>
+		臨別殷勤重寄詞，詞中有誓兩心知。七月七日長生殿，夜半無人私語時。<br>
+		在天願作比翼鳥，在地願為連理枝。天長地久有時盡，此恨綿綿無絕期。<br>
+    </div>
+
+	<a  class="link" href="#" target="_blank" rel="noopener noreferrer">Strong baseline 模型連結</a>
+
+	<!-- d3.js library -->
+	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
+
+    <!-- score outputer -->
+	<script src="https://cdn.jsdelivr.net/gh/t109598105/ScoreOutputer@latest/dist/scoreoutputer.min.js"></script>
+
+    <script>
+		
+        var so = new ScoreOutputer("111111111");
+		so.installCSS(function(){
+			// 安裝 bootstrap 的 css，如果在 html 上方引用 bootstrap 5.1.1 的話就不用使用 installCSS ，注意一定要 bootstrap css 5.1.1 版
+			// installCSS 接收一個 callback 當作參數，作為成功安裝 bootstrap css 的回呼函式
+		
+			//加入項目，分數，完成狀況
+			//第一個參數為 項目名稱
+			//第2個參數為 項目分數
+			//第3個參數為 完成狀況，有完成 true/未完成 false
+			//有幾個項目就呼叫幾個 addChild
+			//addChild 要比 renderModal 先呼叫
+			so.addChild("完整執行預設 Colab 放入 infer 圖", 6, true);
+			so.addChild("字型檔自動讀取", 2, true);
+			so.addChild("用其他字型風格轉換", 2, false);
+
+			//產生自評表，參數如下所示
+			so.renderModal(
+				//1. 自評表插入位置 (預設 document.body)
+				document.body,
+				//2. 自評表背景 (預設紅色)
+				'rgba(100,45,58,1)', 
+				//3. 自評表文字顏色 (預設白色)
+				'white', 
+				//4. 自評表文字大小 (預設 14pt)
+				'15pt', 
+				//5. 自評表 checkbox 文字大小 (預設多少忘了)
+				'15px', 
+				//6. 自評表標題 (預設 "自我評分表")
+				'自我評分表'
+			);
+			
+			//設定下載按鈕 <-- 一定要呼叫這個函數，不然沒有下載功能
+			so.installDownloadBtn();
+			
+			//產生 "開啟自評表按鈕"
+			so.renderBtn(
+				//自評表按鈕插入位置
+				d3.select('#score-btn').node(),
+				//自評表按鈕文字
+				"開啟自評表"
+			);
+		});
+    </script>
+</body>
+</html>
