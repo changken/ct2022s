@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -7,10 +8,10 @@
 	<title>HW05 - zi2zi</title>
 	<style>
 		body {
-            background-color: #775f9e !important;
+			background-color: #775f9e !important;
 			width: 95%;
 			margin: auto;
-        }
+		}
 
 		div {
 			overflow: auto;
@@ -18,9 +19,9 @@
 		}
 
 		img {
-            width: 30%;
+			width: 30%;
 			margin: 10px 10px 10px 5.55%;
-        }
+		}
 
 		.link {
 			color: black !important;
@@ -29,8 +30,10 @@
 
 		}
 
-		.link:hover { color: #FB9966 !important;}
-		
+		.link:hover {
+			color: #FB9966 !important;
+		}
+
 		#simple-baseline {
 			border: rgb(25, 199, 25) solid 3px;
 			margin: 10px;
@@ -41,7 +44,8 @@
 			background-color: wheat;
 			height: 600px;
 			margin: 10px;
-			font-family: Medium; /*需對應下方 font-face Medium Baseline 字型的名稱*/
+			font-family: Medium;
+			/*需對應下方 font-face Medium Baseline 字型的名稱*/
 			letter-spacing: 13px;
 			font-size: 250%;
 		}
@@ -51,20 +55,24 @@
 			background-color: #FB9966;
 			height: 600px;
 			margin: 10px;
-			font-family: Strong; /*需對應下方 font-face Strong Baseline 字型的名稱*/
+			font-family: Strong;
+			/*需對應下方 font-face Strong Baseline 字型的名稱*/
 		}
 
 		@font-face {
-			font-family: "Medium"; /*Medium Baseline 字型的名稱*/
+			font-family: "Medium";
+			/*Medium Baseline 字型的名稱*/
 			src: url(./Medium.ttf);
 		}
 
 		@font-face {
-			font-family: "Strong"; /*Strong Baseline 字型的名稱*/
+			font-family: "Strong";
+			/*Strong Baseline 字型的名稱*/
 			src: url(./Strong.ttf);
 		}
 	</style>
 </head>
+
 <body>
 	<div id="score-btn"></div>
 
@@ -75,8 +83,9 @@
 		<img class="img-fluid img-thumbnail" src="./simple/inferred_0019.png" alt="圖2">
 		<img class="img-fluid img-thumbnail" src="./simple/inferred_0029.png" alt="圖3">
 		<img class="img-fluid img-thumbnail" src="./simple/inferred_0039.png" alt="圖4">
-		<img class="img-fluid img-thumbnail" src="./simple/inferred_0042.png" alt="圖5" id="img-last" style="display: none;">
-    </div>
+		<img class="img-fluid img-thumbnail" src="./simple/inferred_0042.png" alt="圖5" id="img-last"
+			style="display: none;">
+	</div>
 
 	<div id="medium-baseline" class="container-fluid">
 		字體設計與文字編碼 <br><br>
@@ -115,9 +124,9 @@
 		在天願作比翼鳥，在地願為連理枝。天長地久有時盡，此恨綿綿無絕期。<br>
 	</div>
 
-	
+
 	<div id="strong-baseline" class="container-fluid">
-        字體設計與文字編碼 <br><br>
+		字體設計與文字編碼 <br><br>
 
 
 		長恨歌<br>
@@ -152,23 +161,24 @@
 		釵留一股合一扇，釵擘黃金合分鈿。但教心似金鈿堅，天上人間會相見。<br>
 		臨別殷勤重寄詞，詞中有誓兩心知。七月七日長生殿，夜半無人私語時。<br>
 		在天願作比翼鳥，在地願為連理枝。天長地久有時盡，此恨綿綿無絕期。<br>
-    </div>
+	</div>
 
-	<a  class="link" href="#" target="_blank" rel="noopener noreferrer">Strong baseline 模型連結</a>
+	<a class="link" href="https://drive.google.com/drive/folders/1f5Yvk7UDA7IFDjoz7wymjS6MeB0aL9ls?usp=sharing"
+		target="_blank" rel="noopener noreferrer">Strong baseline 模型連結</a>
 
 	<!-- d3.js library -->
 	<script src="https://d3js.org/d3.v4.min.js" charset="utf-8"></script>
 
-    <!-- score outputer -->
+	<!-- score outputer -->
 	<script src="https://cdn.jsdelivr.net/gh/t109598105/ScoreOutputer@latest/dist/scoreoutputer.min.js"></script>
 
-    <script>
-		
-        var so = new ScoreOutputer("111111111");
-		so.installCSS(function(){
+	<script>
+
+		var so = new ScoreOutputer("110598028");
+		so.installCSS(function () {
 			// 安裝 bootstrap 的 css，如果在 html 上方引用 bootstrap 5.1.1 的話就不用使用 installCSS ，注意一定要 bootstrap css 5.1.1 版
 			// installCSS 接收一個 callback 當作參數，作為成功安裝 bootstrap css 的回呼函式
-		
+
 			//加入項目，分數，完成狀況
 			//第一個參數為 項目名稱
 			//第2個參數為 項目分數
@@ -177,27 +187,27 @@
 			//addChild 要比 renderModal 先呼叫
 			so.addChild("完整執行預設 Colab 放入 infer 圖", 6, true);
 			so.addChild("字型檔自動讀取", 2, true);
-			so.addChild("用其他字型風格轉換", 2, false);
+			so.addChild("用其他字型風格轉換", 2, true);
 
 			//產生自評表，參數如下所示
 			so.renderModal(
 				//1. 自評表插入位置 (預設 document.body)
 				document.body,
 				//2. 自評表背景 (預設紅色)
-				'rgba(100,45,58,1)', 
+				'rgba(100,45,58,1)',
 				//3. 自評表文字顏色 (預設白色)
-				'white', 
+				'white',
 				//4. 自評表文字大小 (預設 14pt)
-				'15pt', 
+				'15pt',
 				//5. 自評表 checkbox 文字大小 (預設多少忘了)
-				'15px', 
+				'15px',
 				//6. 自評表標題 (預設 "自我評分表")
 				'自我評分表'
 			);
-			
+
 			//設定下載按鈕 <-- 一定要呼叫這個函數，不然沒有下載功能
 			so.installDownloadBtn();
-			
+
 			//產生 "開啟自評表按鈕"
 			so.renderBtn(
 				//自評表按鈕插入位置
@@ -206,6 +216,7 @@
 				"開啟自評表"
 			);
 		});
-    </script>
+	</script>
 </body>
+
 </html>
