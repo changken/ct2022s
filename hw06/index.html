@@ -1,0 +1,47 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><title>HW06</title><style>*{padding:0;margin:0;box-sizing:border-box}body{width:100vw;height:100vh;display:flex;background-image:url(bg.png);background-repeat:no-repeat;background-position:center;background-size:cover}.flex-center{justify-content:center;align-items:center}.img-container{height:80%;width:80%;display:flex;border-style:solid;border-width:1px;border-radius:10px;padding:30px}.img-container img{width:45%;height:auto;max-height:100%;object-fit:contain;margin:0 20px;border-style:solid}.sidebar{height:80%;border-style:solid;border-width:1px;border-radius:10px;width:10%;margin-left:5px;padding:0 8px}.sidebar .item{margin:20px 2px;text-align:center}.my-btn{padding:6px 2px;background-color:#235e5e;border-radius:5px;cursor:pointer;color:#fff}.fn-body-container{position:absolute;height:100%;width:100%;top:0;bottom:0;left:0;right:0;background-color:rgba(240,248,255,.79);display:flex}#fn-body{height:80%;width:80%;padding:30px}#fn-body textarea{height:100%;width:100%;resize:none;cursor:pointer}#fn-body ::-webkit-scrollbar{width:12px}#fn-body ::-webkit-scrollbar-track{-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.3);border-radius:10px}#fn-body ::-webkit-scrollbar-thumb{border-radius:10px;-webkit-box-shadow:inset 0 0 6px rgba(0,0,0,.5)}</style></head><body class=flex-center><div class="img-container flex-center"><img src=./original.svg title=original> <img src=./morph.svg title=morph></div><div class=sidebar><div class=item></div><div class=item><div class=my-btn id=show-fn>顯示變換函式</div></div></div><div class="fn-body-container flex-center"><div id=fn-body><textarea id=fn-text readonly=readonly></textarea></div></div><script src=https://code.jquery.com/jquery-3.1.0.min.js></script><script src=https://cdn.jsdelivr.net/gh/t109598105/ScoreOutputer@latest/dist/scoreoutputer.min.js></script><script>$(window).ready(function(){var t=$(".fn-body-container").eq(0);t.hide(),$(".img-container img").click(function(){var n=document.createElement("a");n.href=this.src,n.download=$(this).attr("title")+".svg",n.target="_blank",n.click()}),$.get("./function-body.txt").done(function(n){$("#fn-text").html(n),$("#fn-text").click(function(n){n.stopPropagation(),this.select(),document.execCommand("copy")}),$(".fn-body-container").eq(0).click(function(){t.fadeOut(500)}),$("#show-fn").click(function(){t.fadeIn(500)})})})</script>
+<script>
+
+var so = new ScoreOutputer("110598028");
+so.installCSS(function () {
+	// 安裝 bootstrap 的 css，如果在 html 上方引用 bootstrap 5.1.1 的話就不用使用 installCSS ，注意一定要 bootstrap css 5.1.1 版
+	// installCSS 接收一個 callback 當作參數，作為成功安裝 bootstrap css 的回呼函式
+
+	//加入項目，分數，完成狀況
+	//第一個參數為 項目名稱
+	//第2個參數為 項目分數
+	//第3個參數為 完成狀況，有完成 true/未完成 false
+	//有幾個項目就呼叫幾個 addChild
+	//addChild 要比 renderModal 先呼叫
+	so.addChild("顯示任一字原始圖像以及該字的變換圖像", 8, true);
+	so.addChild("顯示變換函式的 function body", 2, true);
+
+	//產生自評表，參數如下所示
+	so.renderModal(
+		//1. 自評表插入位置 (預設 document.body)
+		document.body,
+		//2. 自評表背景 (預設紅色)
+		'rgba(100,45,58,1)',
+		//3. 自評表文字顏色 (預設白色)
+		'white',
+		//4. 自評表文字大小 (預設 14pt)
+		'15pt',
+		//5. 自評表 checkbox 文字大小 (預設多少忘了)
+		'15px',
+		//6. 自評表標題 (預設 "自我評分表")
+		'自我評分表'
+	);
+
+	//設定下載按鈕 <-- 一定要呼叫這個函數，不然沒有下載功能
+	so.installDownloadBtn();
+
+	//產生 "開啟自評表按鈕"
+	so.renderBtn(
+		//自評表按鈕插入位置
+		$('.sidebar .item')[0],
+		//自評表按鈕文字
+		"開啟自評表"
+	);
+});
+
+</script>
+</body></html>
