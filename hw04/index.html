@@ -16,11 +16,18 @@
   			font-weight: 900;
 		}
 		.poems {
-			font-family: myFont; /* Strong Baseline 字型檔 */
+			font-family: StrongFont; /* Strong Baseline 字型檔 */
 		}
 		@font-face {
 			font-family: myFont;
 			src: local("myfont"), url(myfont.ttf); /* 改成自己的 Simple & Medium Baseline 字型檔 */
+			/* src: local("cjkFonts_allseto_v1.11"), url(cjkFonts_allseto_v1.11.ttf); Strong Baseline 字型檔 */
+			font-weight: bold;
+		}
+
+		@font-face {
+			font-family: StrongFont;
+			src: local("StrongFont"), url(StrongFont.ttf); /* 改成自己的 Simple & Medium Baseline 字型檔 */
 			/* src: local("cjkFonts_allseto_v1.11"), url(cjkFonts_allseto_v1.11.ttf); Strong Baseline 字型檔 */
 			font-weight: bold;
 		}
